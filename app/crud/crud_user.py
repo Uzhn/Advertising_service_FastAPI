@@ -2,10 +2,10 @@ from typing import Any, Dict, Optional, Union
 
 from sqlalchemy.orm import Session
 
+from app.core.security import Hasher
 from app.crud.base import CRUDBase
 from app.models.user_model import User
 from app.schemas.user import UserCreate, UserUpdate
-from app.core.security import Hasher
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):

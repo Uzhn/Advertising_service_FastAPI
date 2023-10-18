@@ -4,7 +4,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-from app import models, schemas, crud
+from app import crud, models, schemas
 from app.db.session import get_db
 
 router = APIRouter()
