@@ -1,7 +1,9 @@
 from typing import TYPE_CHECKING, List
+from enum import Enum
 
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from app.db.base_class import Base
 
@@ -9,9 +11,16 @@ if TYPE_CHECKING:
     from .advertisement_model import Advertisement  # noqa: F401
 
 
+class Role(str, Enum):
+    USER_ROLE = "USER_ROLE"
+    ADMIN_ROLE = "ADMIN_ROLE"
+
+
 class User(Base):
     username: Mapped[str] = mapped_column(sa.String(length=150), nullable=False, unique=True)
     hashed_password: Mapped[str] = mapped_column(sa.String(length=150), nullable=False)
+    roles: Mapped[List[str]] = mapped_column(ARRAY(sa.String))
+    is_active: Mapped[bool] = mapped_column(sa.Boolean, default=True)
 
     ads: Mapped[List["Advertisement"]] = relationship(
         back_populates="owner",
