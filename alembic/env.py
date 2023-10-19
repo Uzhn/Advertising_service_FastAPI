@@ -30,12 +30,6 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-# def get_url():
-#     user = os.getenv("POSTGRES_USER", "postgres")
-#     password = os.getenv("POSTGRES_PASSWORD", "")
-#     host = os.getenv("POSTGRES_HOST", "db")
-#     db = os.getenv("POSTGRES_DB", "app")
-#     return f"postgresql://{user}:{password}@{host}/{db}"
 
 
 def run_migrations_offline() -> None:

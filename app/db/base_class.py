@@ -1,13 +1,11 @@
-from typing import Any
-
-import sqlalchemy as sa
-from sqlalchemy.orm import Mapped, as_declarative, declared_attr, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, declared_attr, mapped_column
 
 
-@as_declarative()
-class Base:
-    id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, index=True)
+class Base(DeclarativeBase):
+    __abstract__ = True
 
-    @declared_attr
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+
+    @declared_attr.directive
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
