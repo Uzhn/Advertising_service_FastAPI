@@ -29,7 +29,7 @@ class User(Base):
         back_populates="owner",
         cascade="all, delete-orphan",
     )
-    comments: Mapped[List["User"]] = relationship(
+    comments: Mapped[List["Comment"]] = relationship(
         back_populates="author",
         cascade="all, delete-orphan",
     )

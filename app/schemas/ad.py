@@ -7,7 +7,6 @@ class AdBase(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     category_id: Optional[int] = None
-    # owner_id: Optional[int] = None
 
 
 class AdCreate(AdBase):
