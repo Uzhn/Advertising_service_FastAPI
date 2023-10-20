@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from app.core.security import Hasher
-from app.crud.base import CRUDBase
+from app.crud.base import CRUDBase, ModelType, UpdateSchemaType
 from app.models.user_model import User, Role
 from app.schemas.user import UserCreate, UserUpdate
 
@@ -14,13 +14,16 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         get_user = select(User).filter(User.username == username)
         return db.scalar(get_user)
 
+    def get_by_id(self, db: Session, user_id: int) -> Optional[User]:
+        get_user = select(User).filter(User.id == user_id)
+        return db.scalar(get_user)
+
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         new_user = User(
             username=obj_in.username,
             hashed_password=Hasher.get_password_hash(obj_in.hashed_password),
-            roles=[
-                Role.USER_ROLE,
-            ]
+            roles=obj_in.roles,
+            is_superuser=obj_in.is_superuser
         )
         db.add(new_user)
         db.commit()

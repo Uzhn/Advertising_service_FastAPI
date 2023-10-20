@@ -22,5 +22,9 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     SQLALCHEMY_DATABASE_URI: str
 
+    FIRST_SUPERUSER: str = "super_username"
+    FIRST_SUPERUSER_PASSWORD: str = "super_password"
+    SUPER_USER_ROLE: str = "SUPER_USER_ROLE"
+
 
 settings = Settings()

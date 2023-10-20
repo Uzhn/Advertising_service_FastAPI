@@ -1,6 +1,8 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
+
+from app.models.user_model import Role
 
 
 class UserBase(BaseModel):
@@ -11,10 +13,14 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     username: str
     hashed_password: str
+    is_active: Optional[bool] = True
+    is_superuser: bool = False
+    roles: List[Role] = [Role.USER_ROLE]
 
 
 class UserUpdate(UserBase):
     hashed_password: Optional[str] = None
+    roles: List[Role]
 
 
 class UserInDBBase(UserBase):
@@ -25,3 +31,7 @@ class UserInDBBase(UserBase):
 
 class User(UserInDBBase):
     pass
+
+
+class UpdatedUserPrivilege(BaseModel):
+    roles: List[Role]
