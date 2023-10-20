@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class Comment(Base):
-    description: Mapped[str] = mapped_column(sa.TEXT)
+    description: Mapped[str] = mapped_column(sa.Text)
     author_id: Mapped[int] = mapped_column(sa.ForeignKey("user.id"), nullable=False)
     ad_id: Mapped[int] = mapped_column(sa.ForeignKey("advertisement.id"), nullable=False)
     pub_date: Mapped[datetime] = mapped_column(

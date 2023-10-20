@@ -1,7 +1,6 @@
-from typing import Any, List
+from typing import Any, List, Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, status
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
