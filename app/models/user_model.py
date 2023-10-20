@@ -9,6 +9,7 @@ from app.db.base_class import Base
 
 if TYPE_CHECKING:
     from .advertisement_model import Advertisement  # noqa: F401
+    from .comment_model import Comment  # noqa: F401
 
 
 class Role(str, Enum):
@@ -20,12 +21,16 @@ class Role(str, Enum):
 class User(Base):
     username: Mapped[str] = mapped_column(sa.String(length=150), nullable=False, unique=True)
     hashed_password: Mapped[str] = mapped_column(sa.String(length=150), nullable=False)
-    roles: Mapped[List[str]] = mapped_column(ARRAY(sa.String))
+    roles: Mapped[List[Role]] = mapped_column(ARRAY(sa.String))
     is_active: Mapped[bool] = mapped_column(sa.Boolean, default=True)
     is_superuser: Mapped[bool] = mapped_column(sa.Boolean, default=False)
 
     ads: Mapped[List["Advertisement"]] = relationship(
         back_populates="owner",
+        cascade="all, delete-orphan",
+    )
+    comments: Mapped[List["User"]] = relationship(
+        back_populates="author",
         cascade="all, delete-orphan",
     )
 

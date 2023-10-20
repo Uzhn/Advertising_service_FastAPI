@@ -1,7 +1,6 @@
-from typing import Any, List
+from typing import Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, status
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -15,7 +14,7 @@ def create_user(
     *,
     db: Session = Depends(get_db),
     user_in: schemas.UserCreate,
-) -> Any:
+) -> Optional[models.User]:
     user = crud.user.get_by_username(db, user_in.username)
     if user:
         raise HTTPException(

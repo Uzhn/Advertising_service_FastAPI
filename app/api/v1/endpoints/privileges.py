@@ -1,7 +1,6 @@
-from typing import Any, List
+from typing import Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, status
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -16,7 +15,7 @@ def grant_admin_privilege(
     user_id: int,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(deps.get_current_user),
-):
+) -> Optional[models.User]:
     """
     Promotes a user to admin status.
     """

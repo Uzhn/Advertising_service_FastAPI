@@ -23,7 +23,7 @@ class UserUpdate(UserBase):
     roles: List[Role]
 
 
-class UserInDBBase(UserBase):
+class UserInDBBase(UserCreate):
     id: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)
@@ -34,4 +34,6 @@ class User(UserInDBBase):
 
 
 class UpdatedUserPrivilege(BaseModel):
+    id: int
+    username: str
     roles: List[Role]
