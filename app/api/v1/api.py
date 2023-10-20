@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import users, login, ads, privileges, comments
+from app.api.v1.endpoints import ads, comments, login, privileges, users
 
 api_router = APIRouter()
 

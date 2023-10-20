@@ -1,9 +1,9 @@
-from typing import TYPE_CHECKING, List
 from enum import Enum
+from typing import TYPE_CHECKING, List
 
 import sqlalchemy as sa
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base_class import Base
 
@@ -13,13 +13,17 @@ if TYPE_CHECKING:
 
 
 class Role(str, Enum):
+    """Role of user."""
     USER_ROLE = "USER_ROLE"
     ADMIN_ROLE = "ADMIN_ROLE"
     SUPER_USER_ROLE = "SUPER_USER_ROLE"
 
 
 class User(Base):
-    username: Mapped[str] = mapped_column(sa.String(length=150), nullable=False, unique=True)
+    """Model User."""
+    username: Mapped[str] = mapped_column(
+        sa.String(length=150), nullable=False, unique=True
+    )
     hashed_password: Mapped[str] = mapped_column(sa.String(length=150), nullable=False)
     roles: Mapped[List[Role]] = mapped_column(ARRAY(sa.String))
     is_active: Mapped[bool] = mapped_column(sa.Boolean, default=True)

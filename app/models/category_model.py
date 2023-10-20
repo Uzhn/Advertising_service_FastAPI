@@ -10,8 +10,13 @@ if TYPE_CHECKING:
 
 
 class Category(Base):
-    name: Mapped[str] = mapped_column(sa.String(length=150), nullable=False, unique=True)
-    slug: Mapped[str] = mapped_column(sa.String(length=150), nullable=False, unique=True)
+    """Model Category."""
+    name: Mapped[str] = mapped_column(
+        sa.String(length=150), nullable=False, unique=True
+    )
+    slug: Mapped[str] = mapped_column(
+        sa.String(length=150), nullable=False, unique=True
+    )
 
     ads: Mapped[List["Advertisement"]] = relationship(
         back_populates="category",

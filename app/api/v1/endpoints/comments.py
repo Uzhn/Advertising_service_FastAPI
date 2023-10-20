@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -18,10 +18,8 @@ def create_comment(
     ad_id: int,
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Optional[models.Comment]:
-    """
-    Create new comment.
-    """
-    ad = crud.ad.get_by_id(db=db, ad_id=ad_id)
+    """Create new comment."""
+    ad = crud.ad.get(db=db, id=ad_id)
     if not ad:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -44,10 +42,8 @@ def delete_comment(
     comment_id: int,
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Optional[models.Comment]:
-    """
-    Delete comment.
-    """
-    ad = crud.ad.get_by_id(db=db, ad_id=ad_id)
+    """Delete comment."""
+    ad = crud.ad.get(db=db, id=ad_id)
     if not ad:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

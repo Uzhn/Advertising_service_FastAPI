@@ -1,11 +1,11 @@
-from typing import Any, List, Optional
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
-from app.db.session import get_db
 from app.api import deps
+from app.db.session import get_db
 
 router = APIRouter()
 
@@ -15,7 +15,8 @@ def get_all_ads(
     db: Session = Depends(get_db),
     skip: int = 0,
     limit: int = 100,
-) -> Any:
+) -> List[models.Advertisement]:
+    """Get all advertisements."""
     ads = crud.ad.get_multi(db=db, skip=skip, limit=limit)
     return ads
 
@@ -24,7 +25,8 @@ def get_all_ads(
 def get_ad(
     ad_id: int,
     db: Session = Depends(get_db),
-):
+) -> Optional[models.Advertisement]:
+    """Get advertisement."""
     ad = crud.ad.get(db=db, id=ad_id)
     if not ad:
         raise HTTPException(
@@ -40,7 +42,8 @@ def create_ad(
     db: Session = Depends(get_db),
     ad_in: schemas.AdCreate,
     current_user: models.User = Depends(deps.get_current_user),
-) -> Any:
+) -> Optional[models.Advertisement]:
+    """Create advertisement."""
     ad = crud.ad.create_with_owner(db=db, obj_in=ad_in, owner_id=current_user.id)
     return ad
 
@@ -51,7 +54,8 @@ def delete_ad(
     ad_id: int,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> Any:
+) -> Optional[models.Advertisement]:
+    """Delete advertisement."""
     ad = crud.ad.get(db=db, id=ad_id)
     if not ad:
         raise HTTPException(
