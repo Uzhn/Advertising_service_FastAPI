@@ -44,6 +44,12 @@ def create_ad(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Optional[models.Advertisement]:
     """Create advertisement."""
+    category = crud.category.get(db=db, id=ad_in.category_id)
+    if not category:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Category with id={ad_in.category_id} not found",
+        )
     ad = crud.ad.create_with_owner(db=db, obj_in=ad_in, owner_id=current_user.id)
     return ad
 

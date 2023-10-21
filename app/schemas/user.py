@@ -13,9 +13,11 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     username: str
     hashed_password: str
-    is_active: Optional[bool] = True
-    is_superuser: bool = False
-    roles: List[Role] = [Role.USER_ROLE]
+
+
+class SuperUserCreate(UserCreate):
+    is_superuser: bool
+    roles: List[Role]
 
 
 class UserUpdate(UserBase):
@@ -23,8 +25,11 @@ class UserUpdate(UserBase):
     roles: List[Role]
 
 
-class UserInDBBase(UserCreate):
+class UserInDBBase(UserBase):
     id: Optional[int] = None
+    is_active: Optional[bool] = True
+    is_superuser: bool = False
+    roles: List[Role] = [Role.USER_ROLE]
 
     model_config = ConfigDict(from_attributes=True)
 

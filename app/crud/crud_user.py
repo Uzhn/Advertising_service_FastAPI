@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.core.security import Hasher
 from app.crud.base import CRUDBase
-from app.models.user_model import User
-from app.schemas.user import UserCreate, UserUpdate
+from app.models.user_model import User, Role
+from app.schemas.user import UserCreate, UserUpdate, SuperUserCreate
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
@@ -17,6 +17,18 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         """Create new user with hashed password."""
+        new_user = User(
+            username=obj_in.username,
+            hashed_password=Hasher.get_password_hash(obj_in.hashed_password),
+            roles=[Role.USER_ROLE],
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return new_user
+
+    def create_superuser(self, db: Session, *, obj_in: SuperUserCreate) -> User:
+        """Create superuser with hashed password."""
         new_user = User(
             username=obj_in.username,
             hashed_password=Hasher.get_password_hash(obj_in.hashed_password),
